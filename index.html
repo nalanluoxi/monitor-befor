@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Traffic Monitor</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#f0f2f5;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+    h1{font-size:28px;color:#1a1a2e;margin-bottom:8px;}
+    p{color:#888;margin-bottom:40px;font-size:15px;}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;width:100%;max-width:900px;padding:0 24px;}
+    .card{background:#fff;border-radius:12px;padding:28px 24px;box-shadow:0 2px 12px rgba(0,0,0,.08);text-decoration:none;color:#333;transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column;gap:10px;}
+    .card:hover{transform:translateY(-4px);box-shadow:0 6px 24px rgba(0,0,0,.13);}
+    .card .icon{font-size:32px;}
+    .card .title{font-size:16px;font-weight:700;color:#1a1a2e;}
+    .card .desc{font-size:13px;color:#888;line-height:1.5;}
+    .card .method{font-size:12px;background:#e6f7ff;color:#0958d9;padding:2px 8px;border-radius:10px;align-self:flex-start;}
+  </style>
+</head>
+<body>
+  <h1>Traffic Monitor</h1>
+  <p>选择一个功能页面</p>
+  <div class="grid">
+    <a class="card" href="test-traffic.html">
+      <span class="icon">🧪</span>
+      <span class="method">GET</span>
+      <span class="title">测试写入</span>
+      <span class="desc">/test/traffic<br/>写入测试流量数据</span>
+    </a>
+    <a class="card" href="types.html">
+      <span class="icon">🏷️</span>
+      <span class="method">GET</span>
+      <span class="title">Types 列表</span>
+      <span class="desc">/monitor/types<br/>获取所有 type</span>
+    </a>
+    <a class="card" href="branch-ids.html">
+      <span class="icon">🌿</span>
+      <span class="method">GET</span>
+      <span class="title">BranchIds 列表</span>
+      <span class="desc">/monitor/branchIds<br/>获取所有 branchId</span>
+    </a>
+    <a class="card" href="query-by-day.html">
+      <span class="icon">📅</span>
+      <span class="method">GET</span>
+      <span class="title">按天查询</span>
+      <span class="desc">/monitor/queryByDay<br/>按天查询流量汇总</span>
+    </a>
+    <a class="card" href="query-by-hour.html">
+      <span class="icon">⏰</span>
+      <span class="method">GET</span>
+      <span class="title">按小时查询</span>
+      <span class="desc">/monitor/queryByHour<br/>按小时查询明细</span>
+    </a>
+  </div>
+</body>
+</html>

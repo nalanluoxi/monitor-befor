@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Types - Traffic Monitor</title>
+  <link rel="stylesheet" href="common.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a class="logo" href="index.html">Traffic Monitor</a>
+  <a href="test-traffic.html">测试写入</a>
+  <a href="types.html" class="active">Types</a>
+  <a href="branch-ids.html">BranchIds</a>
+  <a href="query-by-day.html">按天查询</a>
+  <a href="query-by-hour.html">按小时查询</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <h2>GET /monitor/types — 获取所有 Type 列表</h2>
+    <button class="btn btn-primary" onclick="load()">查询</button>
+    <div id="loading" class="loading"><span class="spinner"></span>加载中...</div>
+    <div id="alert" class="alert"></div>
+  </div>
+  <div class="card" id="result-card" style="display:none">
+    <h2>Type 列表 &nbsp;<span id="count" class="tag tag-blue"></span></h2>
+    <div id="tags"></div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>
+async function load() {
+  hideAlert('alert');
+  setLoading('loading', true);
+  document.getElementById('result-card').style.display = 'none';
+  try {
+    const data = await apiFetch(`${BASE}/monitor/types`);
+    setLoading('loading', false);
+    const list = data.body || [];
+    document.getElementById('count').textContent = `共 ${list.length} 条`;
+    document.getElementById('tags').innerHTML = list.length
+      ? list.map(t => `<span class="tag tag-blue">${escHtml(t)}</span>`).join('')
+      : '<span style="color:#aaa">暂无数据</span>';
+    document.getElementById('result-card').style.display = 'block';
+  } catch(e) {
+    setLoading('loading', false);
+    showAlert('alert', `请求失败: ${e.message}`);
+  }
+}
+</script>
+</body>
+</html>

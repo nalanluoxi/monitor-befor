@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>测试写入 - Traffic Monitor</title>
+  <link rel="stylesheet" href="common.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a class="logo" href="index.html">Traffic Monitor</a>
+  <a href="test-traffic.html" class="active">测试写入</a>
+  <a href="types.html">Types</a>
+  <a href="branch-ids.html">BranchIds</a>
+  <a href="query-by-day.html">按天查询</a>
+  <a href="query-by-hour.html">按小时查询</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <h2>GET /test/traffic — 写入测试流量数据</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>monitorType *</label>
+        <input id="monitorType" value="sitemap.test02" placeholder="e.g. sitemap.test02"/>
+      </div>
+      <div class="form-group">
+        <label>batchId</label>
+        <input id="batchId" value="test-list01"/>
+      </div>
+      <div class="form-group">
+        <label>count</label>
+        <input id="count" type="number" value="200" min="1"/>
+      </div>
+      <div class="form-group">
+        <label>dispatchTs (ms)</label>
+        <input id="dispatchTs" value="1775178000000" placeholder="留空=当前时间"/>
+      </div>
+      <div class="form-group">
+        <label>type (SitemapType)</label>
+        <input id="type" placeholder="robots / sitemap / ..."/>
+      </div>
+      <div class="form-group">
+        <label>&nbsp;</label>
+        <button class="btn btn-success" onclick="doSubmit()">发送请求</button>
+      </div>
+    </div>
+    <div id="loading" class="loading"><span class="spinner"></span>请求中...</div>
+    <div id="alert" class="alert"></div>
+  </div>
+  <div class="card" id="result-card" style="display:none">
+    <h2>响应结果</h2>
+    <pre class="json-box" id="result"></pre>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>
+async function doSubmit() {
+  const monitorType = document.getElementById('monitorType').value.trim();
+  if (!monitorType) { showAlert('alert','monitorType 不能为空'); return; }
+  const params = new URLSearchParams({ monitorType });
+  const batchId    = document.getElementById('batchId').value.trim();
+  const count      = document.getElementById('count').value.trim();
+  const dispatchTs = document.getElementById('dispatchTs').value.trim();
+  const type       = document.getElementById('type').value.trim();
+  if (batchId)    params.set('batchId', batchId);
+  if (count)      params.set('count', count);
+  if (dispatchTs) params.set('dispatchTs', dispatchTs);
+  if (type)       params.set('type', type);
+
+  hideAlert('alert');
+  setLoading('loading', true);
+  document.getElementById('result-card').style.display = 'none';
+  try {
+    const data = await apiFetch(`${BASE}/test/traffic?${params}`);
+    setLoading('loading', false);
+    document.getElementById('result-card').style.display = 'block';
+    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+    if (data.success === true) {
+      showAlert('alert', `写入成功！monitorType=${data.monitorType}  count=${data.count}  dispatchTs=${fmtTs(data.dispatchTs)}`, 'success');
+    } else {
+      showAlert('alert', `写入失败: ${data.error || JSON.stringify(data)}`);
+    }
+  } catch(e) {
+    setLoading('loading', false);
+    showAlert('alert', `请求失败: ${e.message}`);
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>按小时查询 - Traffic Monitor</title>
+  <link rel="stylesheet" href="common.css"/>
+</head>
+<body>
+<nav class="navbar">
+  <a class="logo" href="index.html">Traffic Monitor</a>
+  <a href="test-traffic.html">测试写入</a>
+  <a href="types.html">Types</a>
+  <a href="branch-ids.html">BranchIds</a>
+  <a href="query-by-day.html">按天查询</a>
+  <a href="query-by-hour.html" class="active">按小时查询</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <h2>GET /monitor/queryByHour — 按小时查询明细</h2>
+    <div class="form-row">
+      <div class="form-group">
+        <label>day（yyyyMMdd，留空=今天）</label>
+        <input id="day" placeholder="e.g. 20260421"/>
+      </div>
+      <div class="form-group">
+        <label>hour（HH，留空=当前小时）</label>
+        <input id="hour" placeholder="e.g. 20"/>
+      </div>
+      <div class="form-group">
+        <label>type *</label>
+        <input id="type" value="sitemap.test02" placeholder="必填"/>
+      </div>
+      <div class="form-group">
+        <label>&nbsp;</label>
+        <button class="btn btn-primary" onclick="load()">查询</button>
+      </div>
+    </div>
+    <div id="loading" class="loading"><span class="spinner"></span>加载中...</div>
+    <div id="alert" class="alert"></div>
+  </div>
+  <div id="result"></div>
+</div>
+<script src="common.js"></script>
+<script>
+async function load() {
+  const day  = document.getElementById('day').value.trim();
+  const hour = document.getElementById('hour').value.trim();
+  const type = document.getElementById('type').value.trim();
+  if (!type) { showAlert('alert','type 不能为空'); return; }
+  const params = new URLSearchParams({ type });
+  if (day)  params.set('day', day);
+  if (hour) params.set('hour', hour);
+
+  hideAlert('alert');
+  setLoading('loading', true);
+  document.getElementById('result').innerHTML = '';
+  try {
+    const resp = await apiFetch(`${BASE}/monitor/queryByHour?${params}`);
+    setLoading('loading', false);
+    render(resp.body || {});
+  } catch(e) {
+    setLoading('loading', false);
+    showAlert('alert', `请求失败: ${e.message}`);
+  }
+}
+
+function render(data) {
+  const queryDay  = data.queryDay  || '';
+  const queryHour = data.queryHour || '';
+  const allRow    = data.all       || {};
+  const items     = data.items     || [];
+
+  let html = `
+    <div class="card">
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-val">${escHtml(queryDay)}</div><div class="stat-lbl">查询日期</div></div>
+        <div class="stat-box"><div class="stat-val">${escHtml(queryHour)} 时</div><div class="stat-lbl">查询小时</div></div>
+        <div class="stat-box"><div class="stat-val">${Number(allRow.count||0).toLocaleString()}</div><div class="stat-lbl">本小时总量</div></div>
+        <div class="stat-box"><div class="stat-val">${items.length}</div><div class="stat-lbl">明细条数</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>明细列表</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>type</th><th>branchId</th><th>dispatchTs</th><th>count</th></tr></thead>
+          <tbody>
+            <tr class="all-row">
+              <td>ALL</td><td>ALL</td><td></td>
+              <td class="num">${Number(allRow.count||0).toLocaleString()}</td>
+            </tr>
+            ${items.length ? items.map(r=>`
+              <tr>
+                <td>${escHtml(r.type||'')}</td>
+                <td>${escHtml(r.branchId||'')}</td>
+                <td>${escHtml(r.dispatchTs||'')}</td>
+                <td class="num">${Number(r.count||0).toLocaleString()}</td>
+              </tr>`).join('') : '<tr><td colspan="4" style="text-align:center;color:#aaa">暂无数据</td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  document.getElementById('result').innerHTML = html;
+}
+</script>
+</body>
+</html>
