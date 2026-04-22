@@ -37,7 +37,6 @@ if ! $NGINX -t 2>&1; then
     error "Nginx 配置语法错误，请检查配置文件"
     exit 1
 fi
-
 # ── 启动 Nginx ───────────────────────────────────────────────
 info "正在启动 Nginx..."
 $NGINX
