@@ -19,16 +19,17 @@
     <h2>GET /monitor/queryByHour — 按小时查询明细</h2>
     <div class="form-row">
       <div class="form-group">
-        <label>day（yyyyMMdd，留空=今天）</label>
-        <input id="day" placeholder="e.g. 20260421"/>
+        <label>day（留空=今天）</label>
+        <div id="day-picker"></div>
       </div>
       <div class="form-group">
-        <label>hour（HH，留空=当前小时）</label>
-        <input id="hour" placeholder="e.g. 20"/>
+        <label>hour（留空=当前小时）</label>
+        <div id="hour-picker"></div>
       </div>
       <div class="form-group">
         <label>type *</label>
-        <input id="type" value="sitemap.test02" placeholder="必填"/>
+        <input id="type" list="type-list" placeholder="必填，可下拉选择"/>
+        <datalist id="type-list"></datalist>
       </div>
       <div class="form-group">
         <label>&nbsp;</label>
@@ -42,9 +43,13 @@
 </div>
 <script src="common.js"></script>
 <script>
+const dayPicker  = new DayPicker('day-picker');
+const hourPicker = new HourPicker('hour-picker');
+initTypeCombo('type', 'type-list');
+
 async function load() {
-  const day  = document.getElementById('day').value.trim();
-  const hour = document.getElementById('hour').value.trim();
+  const day  = dayPicker.getValue();
+  const hour = hourPicker.getValue();
   const type = document.getElementById('type').value.trim();
   if (!type) { showAlert('alert','type 不能为空'); return; }
   const params = new URLSearchParams({ type });
