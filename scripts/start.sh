@@ -42,7 +42,6 @@ fi
 info "正在启动 Nginx..."
 $NGINX
 sleep 1
-
 # ── 验证启动 ────────────────────────────────────────────────
 if lsof -ti tcp:$UI_PORT > /dev/null 2>&1; then
     info "✓ Nginx 启动成功"
