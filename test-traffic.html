@@ -46,10 +46,6 @@
     <div id="loading" class="loading"><span class="spinner"></span>请求中...</div>
     <div id="alert" class="alert"></div>
   </div>
-  <div class="card" id="result-card" style="display:none">
-    <h2>响应结果</h2>
-    <pre class="json-box" id="result"></pre>
-  </div>
 </div>
 <script src="common.js"></script>
 <script>
@@ -68,16 +64,14 @@ async function doSubmit() {
 
   hideAlert('alert');
   setLoading('loading', true);
-  document.getElementById('result-card').style.display = 'none';
   try {
     const data = await apiFetch(`${BASE}/test/traffic?${params}`);
     setLoading('loading', false);
-    document.getElementById('result-card').style.display = 'block';
-    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
-    if (data.success === true) {
-      showAlert('alert', `写入成功！monitorType=${data.monitorType}  count=${data.count}  dispatchTs=${fmtTs(data.dispatchTs)}`, 'success');
+    const body = data.body || data;
+    if (body.success === true) {
+      showAlert('alert', `写入成功！monitorType=${body.monitorType}  count=${body.count}  dispatchTs=${body.dispatchTs}`, 'success');
     } else {
-      showAlert('alert', `写入失败: ${data.error || JSON.stringify(data)}`);
+      showAlert('alert', `写入失败: ${body.error || JSON.stringify(body)}`);
     }
   } catch(e) {
     setLoading('loading', false);
