@@ -94,6 +94,11 @@ function fmtTs(ts) {
   return s;
 }
 
+function fmtNum(n) {
+  const s = String(Number(n||0));
+  return s.replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+}
+
 function render(data) {
   const queryDay = data.queryDay || '';
   const slots = Object.keys(data).filter(k => k !== 'queryDay' && k !== 'all');
@@ -105,7 +110,7 @@ function render(data) {
     <div class="card">
       <div class="stat-row">
         <div class="stat-box"><div class="stat-val">${escHtml(queryDay)}</div><div class="stat-lbl">查询日期</div></div>
-        <div class="stat-box"><div class="stat-val">${grandTotal.toLocaleString()}</div><div class="stat-lbl">全天总量</div></div>
+        <div class="stat-box"><div class="stat-val">${fmtNum(grandTotal)}</div><div class="stat-lbl">全天总量</div></div>
       </div>
     </div>`;
 
@@ -119,7 +124,7 @@ function render(data) {
     const slotTotal = rows.reduce((s,r)=>s+Number(r.count||0),0);
     html += `
       <div class="card">
-        <h2>时间槽：${escHtml(slot)} &nbsp;<span class="tag tag-blue">合计 ${slotTotal.toLocaleString()}</span></h2>
+        <h2>时间槽：${fmtTs(slot)} &nbsp;<span class="tag tag-blue">合计 ${fmtNum(slotTotal)}</span></h2>
         <div class="table-wrap">
           <table>
             <thead><tr><th>type</th><th>branchId</th><th>dispatchTs</th><th>count</th></tr></thead>
@@ -129,7 +134,7 @@ function render(data) {
                   <td>${escHtml(r.type||'')}</td>
                   <td>${escHtml(r.branchId||'')}</td>
                   <td>${fmtTs(r.dispatchTs)}</td>
-                  <td class="num">${Number(r.count||0).toLocaleString()}</td>
+                  <td class="num">${fmtNum(r.count)}</td>
                 </tr>`).join('')}
             </tbody>
           </table>

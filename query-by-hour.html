@@ -101,6 +101,11 @@ function fmtTs(ts) {
   return s;
 }
 
+function fmtNum(n) {
+  const s = String(Number(n||0));
+  return s.replace(/\B(?=(\d{4})+(?!\d))/g, ',');
+}
+
 let _lastData = null;
 let _sortByCount = false;
 
@@ -132,7 +137,7 @@ function renderTable(data, sortByCount) {
       <div class="stat-row">
         <div class="stat-box"><div class="stat-val">${escHtml(queryDay)}</div><div class="stat-lbl">查询日期</div></div>
         <div class="stat-box"><div class="stat-val">${escHtml(queryHour)} 时</div><div class="stat-lbl">查询小时</div></div>
-        <div class="stat-box"><div class="stat-val">${Number(allRow.count||0).toLocaleString()}</div><div class="stat-lbl">本小时总量</div></div>
+        <div class="stat-box"><div class="stat-val">${fmtNum(allRow.count)}</div><div class="stat-lbl">本小时总量</div></div>
         <div class="stat-box"><div class="stat-val">${items.length}</div><div class="stat-lbl">明细条数</div></div>
       </div>
     </div>
@@ -147,14 +152,14 @@ function renderTable(data, sortByCount) {
           <tbody>
             <tr class="all-row">
               <td>ALL</td><td>ALL</td><td></td>
-              <td class="num">${Number(allRow.count||0).toLocaleString()}</td>
+              <td class="num">${fmtNum(allRow.count)}</td>
             </tr>
             ${items.length ? items.map(r=>`
               <tr>
                 <td>${escHtml(r.type||'')}</td>
                 <td>${escHtml(r.branchId||'')}</td>
                 <td>${fmtTs(r.dispatchTs)}</td>
-                <td class="num">${Number(r.count||0).toLocaleString()}</td>
+                <td class="num">${fmtNum(r.count)}</td>
               </tr>`).join('') : '<tr><td colspan="4" style="text-align:center;color:#aaa">暂无数据</td></tr>'}
           </tbody>
         </table>
