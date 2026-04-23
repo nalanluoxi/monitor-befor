@@ -62,3 +62,28 @@ pre.json-box{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:16px;fon
 .dtp-clear:hover{border-color:#ff4d4f;color:#ff4d4f;}
 .dtp-confirm{background:#00d4ff;border:none;border-radius:5px;padding:4px 14px;font-size:13px;cursor:pointer;color:#1a1a2e;font-weight:600;}
 .dtp-confirm:hover{opacity:.85;}
+
+/* ── Env Switch Bar ── */
+.env-bar{display:flex;align-items:center;gap:12px;background:#fff;border-radius:8px;padding:10px 18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid #f0f0f0;}
+.env-bar .env-label{font-size:13px;color:#666;font-weight:600;}
+.env-switch{display:flex;border:1px solid #d9d9d9;border-radius:6px;overflow:hidden;}
+.env-switch button{background:#fff;border:none;padding:6px 18px;font-size:13px;cursor:pointer;color:#555;transition:background .15s,color .15s;}
+.env-switch button:hover{background:#f5f5f5;}
+.env-switch button.active-test{background:#00d4ff;color:#1a1a2e;font-weight:700;}
+.env-switch button.active-prod{background:#52c41a;color:#fff;font-weight:700;}
+.env-switch button:first-child{border-right:1px solid #d9d9d9;}
+.env-bar .env-tip{font-size:12px;color:#aaa;margin-left:4px;}
+
+/* ── TypeSelect ── */
+.ts-wrap{position:relative;display:inline-block;min-width:200px;}
+.ts-input-row{display:flex;align-items:center;border:1px solid #d9d9d9;border-radius:6px;background:#fff;transition:border-color .2s;overflow:hidden;}
+.ts-input-row:focus-within{border-color:#00d4ff;}
+.ts-input{flex:1;border:none;outline:none;padding:7px 10px;font-size:14px;background:transparent;min-width:0;}
+.ts-arrow{padding:0 10px;cursor:pointer;color:#999;font-size:12px;background:none;border:none;border-left:1px solid #f0f0f0;height:100%;display:flex;align-items:center;}
+.ts-arrow:hover{color:#00d4ff;}
+.ts-dropdown{display:none;position:absolute;z-index:9999;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1px solid #ddd;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);max-height:220px;overflow-y:auto;}
+.ts-dropdown.open{display:block;}
+.ts-item{padding:8px 12px;font-size:14px;cursor:pointer;transition:background .12s;}
+.ts-item:hover,.ts-item.active{background:#e6f7ff;color:#0958d9;}
+.ts-loading{padding:10px 12px;font-size:13px;color:#aaa;}
+.ts-empty{padding:10px 12px;font-size:13px;color:#aaa;}

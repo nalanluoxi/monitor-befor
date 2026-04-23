@@ -10,6 +10,9 @@
 NGINX="/opt/homebrew/opt/nginx/bin/nginx"
 NGINX_CONF="/opt/homebrew/etc/nginx/nginx.conf"
 UI_PORT=9000
+HELPER_PORT=19001
+HELPER_PID="$(dirname "$0")/helper.pid"
+HELPER_LOG="$(dirname "$0")/ui.log"
 
 # ── 颜色输出 ────────────────────────────────────────────────
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
@@ -31,6 +34,20 @@ if lsof -ti tcp:$UI_PORT > /dev/null 2>&1; then
     exit 1
 fi
 
+# ── 启动 nginx-helper（自动管理 upstream）────────────────────
+if lsof -ti tcp:$HELPER_PORT > /dev/null 2>&1; then
+    warn "nginx-helper 已在运行（端口 $HELPER_PORT）"
+else
+    info "正在启动 nginx-helper..."
+    python3 "$(dirname "$0")/nginx-helper.py" >> "$HELPER_LOG" 2>&1 &
+    sleep 0.5
+    if lsof -ti tcp:$HELPER_PORT > /dev/null 2>&1; then
+        info "✓ nginx-helper 启动成功（端口 $HELPER_PORT）"
+    else
+        warn "nginx-helper 启动失败，线上 IP 切换功能不可用"
+    fi
+fi
+
 # ── 检查配置语法 ─────────────────────────────────────────────
 info "检查 Nginx 配置语法..."
 if ! $NGINX -t 2>&1; then
@@ -50,6 +67,7 @@ if lsof -ti tcp:$UI_PORT > /dev/null 2>&1; then
     info "  API 代理     : http://localhost:$UI_PORT/sitemap/* → http://localhost:8080/sitemap/*"
     info "  访问日志     : /opt/homebrew/var/log/nginx/traffic-monitor.access.log"
     info "  错误日志     : /opt/homebrew/var/log/nginx/traffic-monitor.error.log"
+    info "  nginx-helper : http://localhost:$HELPER_PORT/api/status"
     echo ""
     warn "  后端 Spring Boot（端口 8080）需单独启动"
     info "================================================"

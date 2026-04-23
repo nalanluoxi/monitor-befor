@@ -13,8 +13,17 @@
   <a href="branch-ids.html">BranchIds</a>
   <a href="query-by-day.html" class="active">按天查询</a>
   <a href="query-by-hour.html">按小时查询</a>
+  <a href="settings.html">⚙️ 配置</a>
 </nav>
 <div class="main">
+  <div class="env-bar">
+    <span class="env-label">环境：</span>
+    <div class="env-switch">
+      <button id="btn-test" onclick="switchEnv('test')">Test（localhost）</button>
+      <button id="btn-prod" onclick="switchEnv('prod')">线上</button>
+    </div>
+    <span class="env-tip" id="env-tip"></span>
+  </div>
   <div class="card">
     <h2>GET /monitor/queryByDay — 按天查询流量汇总</h2>
     <div class="form-row">
@@ -24,8 +33,7 @@
       </div>
       <div class="form-group">
         <label>type *</label>
-        <input id="type" list="type-list" placeholder="必填，可下拉选择"/>
-        <datalist id="type-list"></datalist>
+        <div id="type-select"></div>
       </div>
       <div class="form-group">
         <label>&nbsp;</label>
@@ -39,12 +47,29 @@
 </div>
 <script src="common.js"></script>
 <script>
-const dayPicker = new DayPicker('day-picker');
-initTypeCombo('type', 'type-list');
+const dayPicker  = new DayPicker('day-picker');
+const typeSelect = new TypeSelect('type-select');
+
+async function switchEnv(env) {
+  setEnv(env);
+  refreshEnvBar();
+  typeSelect.reload();
+  try { await helperSetEnv(env); } catch { /* helper 未运行时静默 */ }
+}
+
+function refreshEnvBar() {
+  const env = getEnv();
+  document.getElementById('btn-test').className = env === 'test' ? 'active-test' : '';
+  document.getElementById('btn-prod').className = env === 'prod' ? 'active-prod' : '';
+  const ips = loadProdIps();
+  document.getElementById('env-tip').textContent =
+    env === 'prod' ? (ips.length ? `共 ${ips.length} 个IP，轮询请求` : '⚠️ 未配置线上IP，将降级用 localhost') : 'localhost:9000';
+}
+refreshEnvBar();
 
 async function load() {
   const day  = dayPicker.getValue();
-  const type = document.getElementById('type').value.trim();
+  const type = typeSelect.getValue().trim();
   if (!type) { showAlert('alert','type 不能为空'); return; }
   const params = new URLSearchParams({ type });
   if (day) params.set('day', day);
@@ -53,7 +78,7 @@ async function load() {
   setLoading('loading', true);
   document.getElementById('result').innerHTML = '';
   try {
-    const resp = await apiFetch(`${BASE}/monitor/queryByDay?${params}`);
+    const resp = await apiFetch(`${getBase()}/monitor/queryByDay?${params}`);
     setLoading('loading', false);
     render(resp.body || {});
   } catch(e) {

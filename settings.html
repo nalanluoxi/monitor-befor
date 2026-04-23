@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+  <title>配置 - Traffic Monitor</title>
+  <link rel="stylesheet" href="common.css"/>
+  <style>
+    .ip-list{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+    .ip-item{display:flex;align-items:center;gap:8px;}
+    .ip-item input{flex:1;border:1px solid #d9d9d9;border-radius:6px;padding:7px 10px;font-size:14px;outline:none;}
+    .ip-item input:focus{border-color:#00d4ff;}
+    .btn-del{background:none;border:1px solid #ffa39e;color:#cf1322;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px;}
+    .btn-del:hover{background:#fff2f0;}
+    .btn-add{margin-top:10px;background:none;border:1px dashed #00d4ff;color:#0958d9;border-radius:6px;padding:7px 20px;cursor:pointer;font-size:14px;}
+    .btn-add:hover{background:#e6f7ff;}
+    .ip-badge{display:inline-block;background:#f0f2f5;border:1px solid #d9d9d9;border-radius:5px;padding:3px 10px;font-size:13px;font-family:monospace;color:#333;}
+    .empty-tip{color:#aaa;font-size:13px;margin-top:8px;}
+    .nginx-cmd-box{background:#1e1e2e;color:#cdd6f4;border-radius:8px;padding:14px 16px;font-size:13px;font-family:monospace;margin-top:12px;white-space:pre-wrap;word-break:break-all;line-height:1.7;}
+    .nginx-cmd-box .cmd-label{color:#a6e3a1;font-weight:700;display:block;margin-bottom:6px;}
+    .copy-btn{margin-top:8px;background:none;border:1px solid #555;color:#cdd6f4;border-radius:5px;padding:4px 14px;font-size:12px;cursor:pointer;}
+    .copy-btn:hover{border-color:#00d4ff;color:#00d4ff;}
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="logo" href="index.html">Traffic Monitor</a>
+  <a href="test-traffic.html">测试写入</a>
+  <a href="types.html">Types</a>
+  <a href="branch-ids.html">BranchIds</a>
+  <a href="query-by-day.html">按天查询</a>
+  <a href="query-by-hour.html">按小时查询</a>
+  <a href="settings.html" class="active">配置</a>
+</nav>
+<div class="main">
+  <div class="card">
+    <h2>线上 IP 集合配置</h2>
+    <p style="font-size:13px;color:#888;margin-bottom:16px;">
+      配置线上环境的 IP 地址（含端口，如 <code>192.168.1.100:9000</code>）。查询页面选择"线上"时将轮询这些 IP 发起请求。
+    </p>
+    <div id="ip-list" class="ip-list"></div>
+    <button class="btn-add" onclick="addIp()">+ 添加 IP</button>
+    <div style="margin-top:20px;display:flex;gap:10px;">
+      <button class="btn btn-primary" onclick="save()">保存</button>
+      <button class="btn" style="background:#f0f0f0;color:#555" onclick="cancel()">取消</button>
+    </div>
+    <div id="alert" class="alert" style="margin-top:12px;"></div>
+  </div>
+  <div class="card">
+    <h2>当前已保存的 IP 集合</h2>
+    <div id="saved-ips"></div>
+  </div>
+  <div class="card">
+    <h2>nginx-helper 状态</h2>
+    <div id="helper-status" style="font-size:13px;color:#888;">检测中...</div>
+  </div>
+</div>
+<script src="common.js"></script>
+<script>
+let editList = [];
+
+// ── helper 状态检测 ──────────────────────────────────────────
+async function checkHelper() {
+  const el = document.getElementById('helper-status');
+  try {
+    const s = await helperStatus();
+    el.innerHTML = `<span style="color:#52c41a;font-weight:700;">● 运行中</span>
+      &nbsp;|&nbsp; 当前环境：<b>${s.env === 'prod' ? '线上' : 'Test'}</b>
+      &nbsp;|&nbsp; 已配置 IP：${s.ips && s.ips.length ? s.ips.map(ip => `<span class="ip-badge">${escHtml(ip)}</span>`).join(' ') : '<span style="color:#aaa">无</span>'}`;
+  } catch {
+    el.innerHTML = `<span style="color:#cf1322;font-weight:700;">● 未运行</span>
+      &nbsp; — 请先执行 <code>bash scripts/start.sh</code> 启动服务`;
+  }
+}
+
+function renderSaved() {
+  const ips = loadProdIps();
+  const el = document.getElementById('saved-ips');
+  el.innerHTML = ips.length
+    ? ips.map(ip => `<span class="ip-badge">${escHtml(ip)}</span>`).join(' ')
+    : '<span class="empty-tip">暂无配置</span>';
+}
+
+function renderEditList() {
+  const container = document.getElementById('ip-list');
+  if (editList.length === 0) {
+    container.innerHTML = '<span class="empty-tip">暂无 IP，点击下方按钮添加</span>';
+    return;
+  }
+  container.innerHTML = editList.map((ip, i) => `
+    <div class="ip-item">
+      <input type="text" value="${escHtml(ip)}" placeholder="如 10.61.193.114:8080" data-idx="${i}" oninput="editList[${i}]=this.value"/>
+      <button class="btn-del" onclick="removeIp(${i})">删除</button>
+    </div>`).join('');
+}
+
+function addIp() {
+  editList.push('');
+  renderEditList();
+  const inputs = document.querySelectorAll('#ip-list input');
+  if (inputs.length) inputs[inputs.length - 1].focus();
+}
+
+function removeIp(i) {
+  editList.splice(i, 1);
+  renderEditList();
+}
+
+async function save() {
+  document.querySelectorAll('#ip-list input').forEach((inp, i) => { editList[i] = inp.value.trim(); });
+  const filtered = editList.map(s => s.trim()).filter(s => s.length > 0);
+  saveProdIps(filtered);
+  editList = [...filtered];
+  renderEditList();
+  renderSaved();
+
+  // 自动调 helper 更新 Nginx upstream
+  try {
+    const res = await helperSetUpstream(filtered);
+    if (res.ok) {
+      showAlert('alert', `保存成功，Nginx upstream 已自动更新（共 ${filtered.length} 个 IP）`, 'success');
+    } else {
+      showAlert('alert', `IP 已保存，但 Nginx 更新失败：${res.error}`, 'error');
+    }
+  } catch {
+    showAlert('alert', 'IP 已保存到本地，但 nginx-helper 未运行，Nginx 未更新', 'error');
+  }
+  checkHelper();
+}
+
+function cancel() {
+  editList = [...loadProdIps()];
+  renderEditList();
+  hideAlert('alert');
+}
+
+// init
+editList = [...loadProdIps()];
+renderEditList();
+renderSaved();
+checkHelper();
+</script>
+</body>
+</html>

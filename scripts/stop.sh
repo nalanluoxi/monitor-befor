@@ -6,6 +6,8 @@
 
 NGINX="/opt/homebrew/opt/nginx/bin/nginx"
 UI_PORT=9000
+HELPER_PORT=19001
+HELPER_PID="$(dirname "$0")/helper.pid"
 
 GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
 info()  { echo -e "${GREEN}[INFO]${NC}  $*"; }
@@ -30,4 +32,17 @@ else
     warn "Nginx 未能正常停止，尝试强制终止..."
     lsof -ti tcp:$UI_PORT | xargs kill -9 2>/dev/null
     info "✓ 已强制终止"
+fi
+
+# ── 停止 nginx-helper ────────────────────────────────────────
+if [ -f "$HELPER_PID" ]; then
+    PID=$(cat "$HELPER_PID")
+    if kill -0 "$PID" 2>/dev/null; then
+        kill "$PID" 2>/dev/null
+        info "✓ nginx-helper 已停止"
+    fi
+    rm -f "$HELPER_PID"
+elif lsof -ti tcp:$HELPER_PORT > /dev/null 2>&1; then
+    lsof -ti tcp:$HELPER_PORT | xargs kill -9 2>/dev/null
+    info "✓ nginx-helper 已停止"
 fi

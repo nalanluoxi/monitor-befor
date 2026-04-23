@@ -2,3 +2,22 @@
 ::1 - - [22/Apr/2026 11:41:43] "GET /types.html HTTP/1.1" 304 -
 ::1 - - [22/Apr/2026 11:41:43] "GET /common.js HTTP/1.1" 200 -
 ::1 - - [22/Apr/2026 11:41:43] "GET /common.css HTTP/1.1" 304 -
+[helper] 监听 127.0.0.1:19001
+[helper] 监听 127.0.0.1:19001
+[helper] 监听 127.0.0.1:19001
+[helper] 监听 127.0.0.1:19001
+[helper] 监听 127.0.0.1:19001
+[helper] 监听 127.0.0.1:19001
+Traceback (most recent call last):
+  File "/Users/nalan/IdeaProjects/traffic-monitor-ui/scripts/./nginx-helper.py", line 156, in <module>
+    main()
+  File "/Users/nalan/IdeaProjects/traffic-monitor-ui/scripts/./nginx-helper.py", line 152, in main
+    server.serve_forever()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 232, in serve_forever
+    ready = selector.select(poll_interval)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+  File "/Users/nalan/IdeaProjects/traffic-monitor-ui/scripts/./nginx-helper.py", line 144, in on_exit
+    os.remove(PID_FILE)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/nalan/IdeaProjects/traffic-monitor-ui/scripts/./helper.pid'
+[helper] 监听 127.0.0.1:19001

@@ -4,27 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e3fc7b4-4762-47a8-8e29-c2d452d698a5" name="更改" comment="修改日期时间选择显示" />
+    <list default="true" id="2e3fc7b4-4762-47a8-8e29-c2d452d698a5" name="更改" comment="修改日期时间选择显示">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/branch-ids.html" beforeDir="false" afterPath="$PROJECT_DIR$/branch-ids.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/common.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/common.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/query-by-day.html" beforeDir="false" afterPath="$PROJECT_DIR$/query-by-day.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/query-by-hour.html" beforeDir="false" afterPath="$PROJECT_DIR$/query-by-hour.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/start.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/stop.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/stop.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ui.log" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ui.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-traffic.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-traffic.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/types.html" beforeDir="false" afterPath="$PROJECT_DIR$/types.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev/update-date-show" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "nalanluoxi"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;nalanluoxi&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/nalanluoxi/monitor-befor.git",
-    "accountId": "77c92d7a-3391-4c25-94ab-eaa75baa41bd"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/nalanluoxi/monitor-befor.git&quot;,
+    &quot;accountId&quot;: &quot;77c92d7a-3391-4c25-94ab-eaa75baa41bd&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="2" />
   </component>
@@ -33,7 +51,6 @@
 }</component>
   <component name="ProjectId" id="3Ch8BIJrnIK8X68CYzNJTsiUmv1" />
   <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
@@ -41,10 +58,11 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "dev/update-date-show",
+    "SHELLCHECK.PATH": "我会在意",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/Users/nalan/IdeaProjects/traffic-monitor-ui",
-    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"893d3cfb-3d53-48c8-8de6-246e91eee7bc\",\"displayName\":\"New Chat\",\"createdAt\":1776839201989,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
-    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-22T06:27:51.582145Z\"}",
+    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"893d3cfb-3d53-48c8-8de6-246e91eee7bc\",\"displayName\":\"New Chat\",\"createdAt\":1776858756271,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
+    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-22T11:52:38.165689Z\"}",
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -54,6 +72,50 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/doc" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
@@ -79,7 +141,23 @@
       <option name="project" value="LOCAL" />
       <updated>1776839239531</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="修改日期时间选择显示">
+      <option name="closed" value="true" />
+      <created>1776839971910</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1776839971910</updated>
+    </task>
+    <task id="LOCAL-00004" summary="修改日期时间选择显示">
+      <option name="closed" value="true" />
+      <created>1776839994545</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1776839994545</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
