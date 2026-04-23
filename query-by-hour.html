@@ -94,11 +94,38 @@ async function load() {
   }
 }
 
+function fmtTs(ts) {
+  if (!ts) return '';
+  const s = String(ts);
+  if (s.length === 10) return `${s.slice(0,4)}/${s.slice(4,6)}/${s.slice(6,8)}/${s.slice(8,10)}`;
+  return s;
+}
+
+let _lastData = null;
+let _sortByCount = false;
+
 function render(data) {
+  _lastData = data;
+  _sortByCount = false;
+  renderTable(data, false);
+}
+
+function toggleSort() {
+  _sortByCount = !_sortByCount;
+  renderTable(_lastData, _sortByCount);
+}
+
+function renderTable(data, sortByCount) {
   const queryDay  = data.queryDay  || '';
   const queryHour = data.queryHour || '';
   const allRow    = data.all       || {};
-  const items     = data.items     || [];
+  let items       = (data.items    || []).slice();
+
+  if (sortByCount) {
+    items.sort((a, b) => Number(b.count||0) - Number(a.count||0));
+  }
+
+  const sortBtnLabel = sortByCount ? '取消排序' : '按 count 排序';
 
   let html = `
     <div class="card">
@@ -110,7 +137,10 @@ function render(data) {
       </div>
     </div>
     <div class="card">
-      <h2>明细列表</h2>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <h2 style="margin:0">明细列表</h2>
+        <button class="btn btn-primary" onclick="toggleSort()">${sortBtnLabel}</button>
+      </div>
       <div class="table-wrap">
         <table>
           <thead><tr><th>type</th><th>branchId</th><th>dispatchTs</th><th>count</th></tr></thead>
@@ -123,7 +153,7 @@ function render(data) {
               <tr>
                 <td>${escHtml(r.type||'')}</td>
                 <td>${escHtml(r.branchId||'')}</td>
-                <td>${escHtml(r.dispatchTs||'')}</td>
+                <td>${fmtTs(r.dispatchTs)}</td>
                 <td class="num">${Number(r.count||0).toLocaleString()}</td>
               </tr>`).join('') : '<tr><td colspan="4" style="text-align:center;color:#aaa">暂无数据</td></tr>'}
           </tbody>

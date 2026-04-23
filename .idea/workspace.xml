@@ -4,19 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e3fc7b4-4762-47a8-8e29-c2d452d698a5" name="更改" comment="修改日期时间选择显示">
+    <list default="true" id="2e3fc7b4-4762-47a8-8e29-c2d452d698a5" name="更改" comment="添加动态线上线下切换功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/branch-ids.html" beforeDir="false" afterPath="$PROJECT_DIR$/branch-ids.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common.css" beforeDir="false" afterPath="$PROJECT_DIR$/common.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common.js" beforeDir="false" afterPath="$PROJECT_DIR$/common.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query-by-day.html" beforeDir="false" afterPath="$PROJECT_DIR$/query-by-day.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/query-by-hour.html" beforeDir="false" afterPath="$PROJECT_DIR$/query-by-hour.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/start.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/start.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/stop.sh" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/stop.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/ui.log" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ui.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test-traffic.html" beforeDir="false" afterPath="$PROJECT_DIR$/test-traffic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/types.html" beforeDir="false" afterPath="$PROJECT_DIR$/types.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,7 +15,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev/update-date-show" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -59,10 +48,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "我会在意",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "dev/add-show",
     "last_opened_file_path": "/Users/nalan/IdeaProjects/traffic-monitor-ui",
-    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"893d3cfb-3d53-48c8-8de6-246e91eee7bc\",\"displayName\":\"New Chat\",\"createdAt\":1776858756271,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
-    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-22T11:52:38.165689Z\"}",
+    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"5a3c8f2c-50ad-4d0a-bd13-44d2d50f6c28\",\"displayName\":\"New Chat\",\"createdAt\":1776926746083,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
+    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-23T06:47:45.830901Z\"}",
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
@@ -157,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1776839994545</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="添加动态线上线下切换功能">
+      <option name="closed" value="true" />
+      <created>1776913994020</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1776913994020</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -171,7 +168,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="master" />
+                        <option value="dev/add-show" />
                       </list>
                     </value>
                   </entry>
@@ -186,6 +183,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="监控初代模板" />
     <MESSAGE value="修改日期时间选择显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改日期时间选择显示" />
+    <MESSAGE value="添加动态线上线下切换功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加动态线上线下切换功能" />
   </component>
 </project>
