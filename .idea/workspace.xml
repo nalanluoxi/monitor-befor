@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2e3fc7b4-4762-47a8-8e29-c2d452d698a5" name="更改" comment="添加动态线上线下切换功能">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/helper.pid" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/helper.pid" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts/ui.log" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/ui.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,10 +50,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "我会在意",
-    "git-widget-placeholder": "dev/add-show",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/Users/nalan/IdeaProjects/traffic-monitor-ui",
-    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"5a3c8f2c-50ad-4d0a-bd13-44d2d50f6c28\",\"displayName\":\"New Chat\",\"createdAt\":1776926746083,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
-    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-23T06:47:45.830901Z\"}",
+    "mcopilot_agent_context_state_agent_view_container_tabs": "[{\"id\":\"5a3c8f2c-50ad-4d0a-bd13-44d2d50f6c28\",\"displayName\":\"New Chat\",\"createdAt\":1777257572135,\"closeable\":false,\"tabType\":\"AGENT\",\"isActive\":true}]",
+    "mcopilot_agent_context_state_catpaw_code_repo_config": "{\"rules\":[],\"mcpServers\":\"\",\"commandsDirs\":[],\"agentIds\":[],\"lastUpdated\":\"2026-04-27T02:10:11.560216Z\"}",
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"

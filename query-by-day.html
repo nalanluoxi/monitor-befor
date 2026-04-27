@@ -39,6 +39,13 @@
         <label>&nbsp;</label>
         <button class="btn btn-primary" onclick="load()">查询</button>
       </div>
+      <div id="mode-btns" class="form-group" style="display:none">
+        <label>&nbsp;</label>
+        <div style="display:flex;gap:6px;">
+          <button id="btn-summary" class="btn btn-mode active-mode" onclick="switchMode('summary')">汇总</button>
+          <button id="btn-detail"  class="btn btn-mode"             onclick="switchMode('detail')">详情</button>
+        </div>
+      </div>
     </div>
     <div id="loading" class="loading"><span class="spinner"></span>加载中...</div>
     <div id="alert" class="alert"></div>
@@ -49,6 +56,10 @@
 <script>
 const dayPicker  = new DayPicker('day-picker');
 const typeSelect = new TypeSelect('type-select');
+
+let currentMode = 'summary';
+let lastData    = null;
+let sortDesc    = true;
 
 async function switchEnv(env) {
   setEnv(env);
@@ -80,11 +91,105 @@ async function load() {
   try {
     const resp = await apiFetch(`${getBase()}/monitor/queryByDay?${params}`);
     setLoading('loading', false);
-    render(resp.body || {});
+    lastData = resp.body || {};
+    document.getElementById('mode-btns').style.display = 'flex';
+    renderByMode();
   } catch(e) {
     setLoading('loading', false);
     showAlert('alert', `请求失败: ${e.message}`);
   }
+}
+
+function renderByMode() {
+  if (currentMode === 'summary') renderSummary(lastData);
+  else render(lastData);
+}
+
+async function switchMode(mode) {
+  currentMode = mode;
+  document.getElementById('btn-summary').classList.toggle('active-mode', mode === 'summary');
+  document.getElementById('btn-detail').classList.toggle('active-mode', mode === 'detail');
+  if (mode === 'detail') {
+    await load();
+  } else {
+    renderSummary(lastData);
+  }
+}
+
+function toggleSort() {
+  sortDesc = !sortDesc;
+  renderSummary(lastData);
+}
+
+function renderSummary(data) {
+  if (!data) return;
+  const queryDay = data.queryDay || '';
+  const slots = Object.keys(data).filter(k => k !== 'queryDay' && k !== 'all');
+
+  // 聚合：type+branchId+dispatchTs 为 key，累加 count
+  const map = new Map();
+  slots.forEach(slot => {
+    (data[slot] || []).forEach(r => {
+      const key = `${r.type}||${r.branchId}||${r.dispatchTs}`;
+      if (map.has(key)) {
+        map.get(key).allCount += Number(r.count || 0);
+      } else {
+        map.set(key, {
+          type: r.type || '',
+          branchId: r.branchId || '',
+          dispatchTs: r.dispatchTs || '',
+          allCount: Number(r.count || 0)
+        });
+      }
+    });
+  });
+
+  let rows = [...map.values()];
+  rows.sort((a, b) => sortDesc ? b.allCount - a.allCount : a.allCount - b.allCount);
+
+  const grandTotal = rows.reduce((s, r) => s + r.allCount, 0);
+  const sortIcon   = sortDesc ? '↓' : '↑';
+
+  let html = `
+    <div class="card">
+      <div class="stat-row">
+        <div class="stat-box"><div class="stat-val">${escHtml(queryDay)}</div><div class="stat-lbl">查询日期</div></div>
+        <div class="stat-box"><div class="stat-val">${fmtNum(grandTotal)}</div><div class="stat-lbl">全天总量</div></div>
+        <div class="stat-box"><div class="stat-val">${fmtNum(rows.length)}</div><div class="stat-lbl">聚合条目数</div></div>
+      </div>
+    </div>`;
+
+  if (rows.length === 0) {
+    html += `<div class="card"><p style="color:#aaa;text-align:center;padding:20px">暂无数据</p></div>`;
+  } else {
+    html += `
+      <div class="card">
+        <h2>全天汇总（按 type / branchId / dispatchTs 聚合）</h2>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>type</th>
+                <th>branchId</th>
+                <th>dispatchTs</th>
+                <th>allCount <button class="sort-btn" onclick="toggleSort()" title="切换排序">${sortIcon}</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.map(r => `
+                <tr>
+                  <td>${escHtml(r.type)}</td>
+                  <td>${escHtml(r.branchId)}</td>
+                  <td>${fmtTs(r.dispatchTs)}</td>
+                  <td class="num">${fmtNum(r.allCount)}</td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }
+
+  document.getElementById('result').innerHTML = html;
 }
 
 function fmtTs(ts) {
